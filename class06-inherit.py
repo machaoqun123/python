@@ -16,6 +16,9 @@ class Dog(Animal):
 	def __init__(self,name):
 		super().__init__() ##主动调用父类的init方法
 		self.name=name
+	def eat(self):
+		super().eat()##调用父类的eat方法
+		print("狗自己的eat方法")
 	def shout(self):
 		print("-----旺旺-----")
 
@@ -39,10 +42,9 @@ dog = Dog("小白") ##如何子类中对某个方法重写了，优先调用子�
 print(dog.name)
 print(dog.color)
 dog.eat()
-cat = Cat()
+#cat = Cat()
 #print(cat.name)
-cat.eat()
+#cat.eat()
 
-zang = ZangAo("藏獒")
-zang.eat()
-
+#zang = ZangAo("藏獒")
+#zang.eat()
