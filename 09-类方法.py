@@ -1,21 +1,20 @@
-class A(object):
-	name="zs"	
-	def test1(self):
-		print("-----A的test1方法")
+class User(object):
+	__instance=None
+
+	def __init__(self,name):
+		self.name=name
 	
-	@classmethod##类方法一定要在方法的上面加上一个修饰器,类方法的参数cls，代表当前的类
-	def test2(cls):
-		#A.name="ww"##此种也可以实现修改类属性，可用于实例方法中。
-		cls.name="ww"##正规写法
-		print("-----A的test2方法")
+	def __new__(cls,name):##保证new方法只调用一次
+		if not cls.__instance:
+			cls.__instance=object.__new__(cls)
+		return cls.__instance
+			
 
-	@staticmethod##静态方法，属于类的，没有默认传递的参数。可以通过类的对象调用，也可以通过类名调用
-	def test3():
-		A.name="ls"
-		print("-----A的test3静态方法")
-
-a = A()
-a.test2()
-A.test2()
-A.test3()
-print(A.name)
+u1 = User("zs")
+u2 = User("ls")
+##执行13行，则先第一次自动调用new方法，然后第一次自动调用init方法，进而self.name被"zs"赋值；再执行14行，此时第二次自动调用new方法，然而由于__instance=User（”zs“）,则直接返回__instance；
+##接下来第二次自动调用init方法时，self依然指的是u1，因此self.name=name意味着将实参（ls）赋值给u1的属性name。
+#print(u1==u2)##判断表达式，如果返回True，这两个对象是一个对象，并且内存地址相同
+#print("u1对象的内存地址:%s,u2对象的内存地址:%s"%(id(u1),id(u2)))
+print(u1.name)
+print(u2.name)
